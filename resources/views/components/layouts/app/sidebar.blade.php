@@ -12,9 +12,39 @@
             </a>
 
             <flux:navlist variant="outline">
-                <flux:navlist.group :heading="__('Platform')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+                <flux:navlist.group :heading="__('Dashboard')" class="grid">
+                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Inicio') }}</flux:navlist.item>
                 </flux:navlist.group>
+
+                @if(Auth::user()->isAdmin())
+                <flux:navlist.group :heading="__('Gestión Académica')" class="grid">
+                    <flux:navlist.item :href="route('docentes.index')" :current="request()->routeIs('docentes.*')" wire:navigate>{{ __('Docentes') }}</flux:navlist.item>
+                    <flux:navlist.item :href="route('asignaturas.index')" :current="request()->routeIs('asignaturas.*')" wire:navigate>{{ __('Asignaturas') }}</flux:navlist.item>
+                    <flux:navlist.item :href="route('aulas.index')" :current="request()->routeIs('aulas.*')" wire:navigate>{{ __('Aulas') }}</flux:navlist.item>
+                    <flux:navlist.item :href="route('grupos.index')" :current="request()->routeIs('grupos.*')" wire:navigate>{{ __('Grupos') }}</flux:navlist.item>
+                </flux:navlist.group>
+
+                <flux:navlist.group :heading="__('Administración')" class="grid">
+                    <flux:navlist.item :href="route('administrativos.index')" :current="request()->routeIs('administrativos.*')" wire:navigate>{{ __('Administrativos') }}</flux:navlist.item>
+                    <flux:navlist.item :href="route('roles.index')" :current="request()->routeIs('roles.*')" wire:navigate>{{ __('Roles') }}</flux:navlist.item>
+                    <flux:navlist.item :href="route('dias.index')" :current="request()->routeIs('dias.*')" wire:navigate>{{ __('Días') }}</flux:navlist.item>
+                    <flux:navlist.item :href="route('bitacoras.index')" :current="request()->routeIs('bitacoras.*')" wire:navigate>{{ __('Bitácora') }}</flux:navlist.item>
+                </flux:navlist.group>
+                @elseif(Auth::user()->rol && Auth::user()->rol->nombre === 'Docente')
+                <flux:navlist.group :heading="__('Herramientas Docente')" class="grid">
+                    <flux:navlist.item :href="route('asignaturas.index')" :current="request()->routeIs('asignaturas.*')" wire:navigate>{{ __('Asignaturas') }}</flux:navlist.item>
+                    <flux:navlist.item :href="route('grupos.index')" :current="request()->routeIs('grupos.*')" wire:navigate>{{ __('Grupos') }}</flux:navlist.item>
+                    <flux:navlist.item :href="route('aulas.index')" :current="request()->routeIs('aulas.*')" wire:navigate>{{ __('Aulas') }}</flux:navlist.item>
+                    <flux:navlist.item :href="route('dias.index')" :current="request()->routeIs('dias.*')" wire:navigate>{{ __('Horarios') }}</flux:navlist.item>
+                </flux:navlist.group>
+                @else
+                <flux:navlist.group :heading="__('Portal Estudiantil')" class="grid">
+                    <flux:navlist.item :href="route('asignaturas.index')" :current="request()->routeIs('asignaturas.*')" wire:navigate>{{ __('Materias') }}</flux:navlist.item>
+                    <flux:navlist.item :href="route('grupos.index')" :current="request()->routeIs('grupos.*')" wire:navigate>{{ __('Grupos') }}</flux:navlist.item>
+                    <flux:navlist.item :href="route('aulas.index')" :current="request()->routeIs('aulas.*')" wire:navigate>{{ __('Aulas') }}</flux:navlist.item>
+                    <flux:navlist.item :href="route('dias.index')" :current="request()->routeIs('dias.*')" wire:navigate>{{ __('Horarios') }}</flux:navlist.item>
+                </flux:navlist.group>
+                @endif
             </flux:navlist>
 
             <flux:spacer />

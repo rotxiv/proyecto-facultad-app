@@ -45,7 +45,7 @@ class AsignaturaController extends Controller
             ->where('estado', true)
             ->first();
 
-        return redirect()->route('asignatura.index')
+        return redirect()->route('asignaturas.index')
             ->with('success', 'Asignatura agregada correctamente.');
     }
 
@@ -90,7 +90,7 @@ class AsignaturaController extends Controller
             'descripcion' => $request->descripcion
         ]);
 
-        return redirect()->route('asignatura.index')
+        return redirect()->route('asignaturas.index')
             ->with('success', 'Asignatura actualizada correctamente.');
     }
 
@@ -104,7 +104,7 @@ class AsignaturaController extends Controller
             ->first();
 
         if (!$asignatura) {
-            return redirect()->route('asignatura.index')
+            return redirect()->route('asignaturas.index')
                 ->with('error', 'Asignatura no encontrada.');
         }
 
@@ -112,7 +112,7 @@ class AsignaturaController extends Controller
         
         $asignatura->save();
 
-        return redirect()->route('asignatura.index')
+        return redirect()->route('asignaturas.index')
             ->with('success', 'Asignatura eliminada correctamente.');
     }
 
@@ -123,7 +123,7 @@ class AsignaturaController extends Controller
             ->first();
 
         if (!$asignatura) {
-            return redirect()->route('asignatura.index')
+            return redirect()->route('asignaturas.index')
                 ->with('error', 'Asignatura no encontrada.');
         }
 
@@ -131,7 +131,7 @@ class AsignaturaController extends Controller
         
         $asignatura->save();
 
-        return redirect()->route('asignatura.index')
+        return redirect()->route('asignaturas.index')
             ->with('success', 'Asignatura agregado correctamente.');
     }
 

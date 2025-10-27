@@ -28,7 +28,7 @@
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 md:p-5 max-h-[70vh] overflow-y-auto">
-                        <form class="space-y-4" action="{{ route('asignatura.store') }}" method="POST">
+                        <form class="space-y-4" action="{{ route('asignaturas.store') }}" method="POST">
                             @csrf
                             <div>
                                 <label for="asignatura" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Número de Carnet</label>

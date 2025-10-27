@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Persona extends Model
 {
-    protected $table = 'Personas';
+    protected $table = 'personas';
     protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'integer';
@@ -16,8 +16,7 @@ class Persona extends Model
         'sexo', 
         'telefono', 
         'direccion', 
-        'fecha_ingreso',
-        'visible'
+        'fecha_ingreso'
     ];
 
     public function docente()

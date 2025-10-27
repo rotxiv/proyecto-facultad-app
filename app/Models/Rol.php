@@ -10,6 +10,6 @@ class Rol extends Model
     protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'integer';
-    protected $fillable = [ 'descripcion', 'visible' ];
+    protected $fillable = [ 'nombre', 'descripcion' ];
 
 }

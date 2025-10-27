@@ -14,7 +14,7 @@ class Administrativo extends Model
         'persona_id', 
         'codigo', 
         'correo', 
-        'visible'
+        'estado'
     ];
 
     public function persona()

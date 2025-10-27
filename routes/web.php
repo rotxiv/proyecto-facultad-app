@@ -18,12 +18,37 @@ use Laravel\Fortify\Features;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.account-type-selector');
 })->name('home');
+
+// Selector de tipo de cuenta
+Route::get('/account-selector', function () {
+    return view('auth.account-type-selector');
+})->name('account.selector');
+
+// Rutas de login por tipo de cuenta
+Route::get('/login/estudiante', function () {
+    return view('livewire.auth.login-estudiante');
+})->name('login.estudiante');
+
+Route::get('/login/docente', [App\Http\Controllers\Auth\DocenteLoginController::class, 'showLoginForm'])->name('login.docente');
+Route::post('/login/docente', [App\Http\Controllers\Auth\DocenteLoginController::class, 'login'])->name('docente.login');
+
+Route::get('/login/administrativo', function () {
+    return view('livewire.auth.login-administrativo');
+})->name('login.administrativo');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+Route::view('dashboard-docente', 'dashboard-docente')
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard.docente');
+
+Route::view('dashboard-estudiante', 'dashboard-estudiante')
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard.estudiante');
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');

@@ -14,9 +14,21 @@ class Docente extends Model
         'persona_id', 
         'codigo', 
         'correo', 
+        'password',
         'carga_horaria',  
-        'visible'
+        'estado'
     ];
+
+    protected $hidden = [
+        'password',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'password' => 'hashed',
+        ];
+    }
 
     public function persona()
     {

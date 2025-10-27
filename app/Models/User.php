@@ -23,6 +23,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'rol_id',
+        'administrativo_id',
     ];
 
     /**
@@ -60,5 +62,29 @@ class User extends Authenticatable
             ->take(2)
             ->map(fn ($word) => Str::substr($word, 0, 1))
             ->implode('');
+    }
+
+    /**
+     * Relación con el rol
+     */
+    public function rol()
+    {
+        return $this->belongsTo(Rol::class);
+    }
+
+    /**
+     * Relación con administrativo
+     */
+    public function administrativo()
+    {
+        return $this->belongsTo(Administrativo::class);
+    }
+
+    /**
+     * Verificar si el usuario es administrador
+     */
+    public function isAdmin(): bool
+    {
+        return $this->rol && $this->rol->nombre === 'Administrador';
     }
 }
