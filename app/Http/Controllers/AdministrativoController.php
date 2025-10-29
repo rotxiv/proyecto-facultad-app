@@ -59,12 +59,15 @@ class AdministrativoController extends Controller
             'fecha_ingreso' => $request->fecha_ingreso
         ]);
 
-        // Crear al docente
+        // Crear al administrativo
         $administrativo_temp = Administrativo::create([
             'persona_id' => $persona->id,
             'codigo' => $request->codigo,
             'correo' => $request->correo,
         ]);
+
+        // Crear al usuario relacionado al administrativo
+        
 
         // obtener el docente creado con la relacion de persona
         $administrativo = Administrativo::where('estado', true)

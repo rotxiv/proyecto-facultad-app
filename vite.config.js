@@ -14,7 +14,7 @@ export default defineConfig({
     ],
     server: {
         cors: true,
-        https: true, // Fuerza HTTPS en el servidor de desarrollo
+        //https: true, // Fuerza HTTPS en el servidor de desarrollo
     },
-    base: process.env.NODE_ENV === 'production' ? process.env.APP_URL + '/' : '/',
+    //base: process.env.NODE_ENV === 'production' ? process.env.APP_URL + '/' : '/',
 });

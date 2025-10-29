@@ -1,21 +1,37 @@
 <?php
 
-namespace Database\Seeders;
+namespace App\Console\Commands;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\User;
 use App\Models\Rol;
 use App\Models\Persona;
 use App\Models\Administrativo;
-use Illuminate\Support\Facades\Hash;
 
-class AdminUserSeeder extends Seeder
+
+class CrearAdmin extends Command
 {
     /**
-     * Run the database seeds.
+     * The name and signature of the console command.
+     *
+     * @var string
      */
-    public function run(): void
+    protected $signature = 'app:crear-admin';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Crea un usuario Administrador';
+    
+
+    /**
+     * Execute the console command.
+     */
+    public function handle()
     {
         // Crear rol de administrador
         $rolAdmin = Rol::firstOrCreate([
@@ -45,7 +61,7 @@ class AdminUserSeeder extends Seeder
         ]);
 
         // Crear usuario administrador
-        User::firstOrCreate([
+        $user = User::firstOrCreate([
             'email' => 'admin@facultad.edu'
         ], [
             'name' => 'Administrador',
@@ -55,9 +71,12 @@ class AdminUserSeeder extends Seeder
             'email_verified_at' => now()
         ]);
 
-        $this->command->info('Usuario administrador creado exitosamente:');
-        $this->command->info('Email: admin@facultad.edu');
-        $this->command->info('Contraseña: admin123');
-        $this->command->info('Código Administrativo: ADM001');
+        if ($user->wasRecentlyCreated) {
+            $this->info('✅ Usuario administrador creado correctamente.');
+        } else {
+            $this->warn('⚠️ Ya existe un usuario con ese correo. No se creó uno nuevo.');
+        }
+
+        return 0;
     }
 }

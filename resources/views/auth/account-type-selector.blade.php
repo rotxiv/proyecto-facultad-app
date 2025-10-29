@@ -6,27 +6,23 @@
             body {
                 background: #ffffff;
                 color: #1f2937;
-            }
-            
+            }            
             .bg-gradient-animated {
                 background: linear-gradient(-45deg, #f8fafc, #e2e8f0, #cbd5e1, #94a3b8, #64748b, #475569);
                 background-size: 400% 400%;
                 animation: gradientShift 15s ease infinite;
             }
-            
             @keyframes gradientShift {
                 0% { background-position: 0% 50%; }
                 50% { background-position: 100% 50%; }
                 100% { background-position: 0% 50%; }
             }
-            
             .glass-effect {
                 background: rgba(255, 255, 255, 0.9);
                 backdrop-filter: blur(20px);
                 border: 1px solid rgba(0, 0, 0, 0.1);
                 box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
             }
-            
             .floating-animation {
                 animation: floating 6s ease-in-out infinite;
             }
@@ -35,26 +31,22 @@
                 0%, 100% { transform: translateY(0px); }
                 50% { transform: translateY(-20px); }
             }
-            
             .account-card {
                 transition: all 0.3s ease;
                 cursor: pointer;
                 background: rgba(255, 255, 255, 0.95);
                 border: 2px solid rgba(0, 0, 0, 0.1);
             }
-            
             .account-card:hover {
                 transform: translateY(-10px) scale(1.05);
                 box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
                 border-color: rgba(59, 130, 246, 0.4);
             }
-            
             .account-card.selected {
                 background: rgba(59, 130, 246, 0.1);
                 border-color: rgba(59, 130, 246, 0.6);
                 transform: translateY(-5px) scale(1.02);
             }
-            
             .icon-container {
                 background: rgba(0, 0, 0, 0.05);
                 backdrop-filter: blur(10px);
@@ -80,15 +72,17 @@
             }
         </style>
     </head>
-    <body class="min-h-screen bg-gradient-animated antialiased overflow-hidden">
+    <body class="min-h-screen bg-gradient-animated antialiased overflow-auto">
+        <!-- Capa de fondo oscuro -->
+        <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+        
         <!-- Elementos decorativos flotantes -->
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
             <div class="absolute top-1/4 left-1/4 w-64 h-64 floating-elements rounded-full blur-3xl floating-animation"></div>
             <div class="absolute top-3/4 right-1/4 w-96 h-96 floating-elements rounded-full blur-3xl floating-animation" style="animation-delay: -2s;"></div>
             <div class="absolute bottom-1/4 left-1/3 w-80 h-80 floating-elements rounded-full blur-3xl floating-animation" style="animation-delay: -4s;"></div>
         </div>
-        
-        <div class="relative z-10 flex min-h-screen flex-col items-center justify-center gap-6 p-6">
+        <div class="relative z-10 flex flex-col items-center justify-center gap-6 p-6 min-h-screen md:justify-center md:min-h-screen h-auto">
             <!-- Logo y encabezado -->
             <div class="text-center mb-8">
                 <div class="inline-flex items-center justify-center w-24 h-24 mb-6 glass-effect rounded-2xl">
@@ -104,12 +98,11 @@
                 <h3 class="text-3xl font-bold text-red-600 mb-2">Bienvenido al Perfil</h3>
                 <p class="text-xl text-blue-600 font-semibold">Elige tu tipo de cuenta</p>
             </div>
-
             <!-- Selector de tipo de cuenta -->
             <div class="w-full max-w-6xl">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Estudiante -->
-                    <div class="account-card glass-effect rounded-3xl p-8 text-center" onclick="selectAccount('estudiante')">
+                    <div class="account-card glass-effect rounded-3xl p-8 text-center" onclick="selectAccount(event, 'estudiante')">
                         <div class="icon-container">
                             <svg class="w-16 h-16 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
@@ -121,9 +114,8 @@
                             <p class="text-green-700 text-xs font-medium">Portal de estudiantes</p>
                         </div>
                     </div>
-
                     <!-- Docente -->
-                    <div class="account-card glass-effect rounded-3xl p-8 text-center" onclick="selectAccount('docente')">
+                    <div class="account-card glass-effect rounded-3xl p-8 text-center" onclick="selectAccount(event, 'docente')">
                         <div class="icon-container">
                             <svg class="w-16 h-16 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
@@ -135,9 +127,8 @@
                             <p class="text-orange-700 text-xs font-medium">Portal docente</p>
                         </div>
                     </div>
-
                     <!-- Administrativo -->
-                    <div class="account-card glass-effect rounded-3xl p-8 text-center" onclick="selectAccount('administrativo')">
+                    <div class="account-card glass-effect rounded-3xl p-8 text-center" onclick="selectAccount(event, 'administrativo')">
                         <div class="icon-container">
                             <svg class="w-16 h-16 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
@@ -150,7 +141,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Botón continuar -->
                 <div class="text-center mt-12">
                     <button id="continueBtn" onclick="continueToLogin()" 
@@ -165,7 +155,6 @@
                         </span>
                     </button>
                 </div>
-
                 <!-- Link de ayuda -->
                 <div class="text-center mt-8">
                     <p class="text-gray-600 text-sm">
@@ -177,27 +166,22 @@
                 </div>
             </div>
         </div>
-
         <script>
             //document.addEventListener('DOMContentLoaded', function () {
                 let selectedAccountType = null;
-
-                function selectAccount(type) {
+                function selectAccount(event, type) {
                     // Remover selección anterior
                     document.querySelectorAll('.account-card').forEach(card => {
                         card.classList.remove('selected');
                     });
-
                     // Seleccionar nueva cuenta
                     event.currentTarget.classList.add('selected');
                     selectedAccountType = type;
-
                     // Habilitar botón continuar
                     const continueBtn = document.getElementById('continueBtn');
                     continueBtn.disabled = false;
                     continueBtn.classList.remove('disabled:from-gray-500', 'disabled:to-gray-600');
                 }
-
                 function continueToLogin() {
                     if (selectedAccountType) {
                         // Redirigir al login correspondiente
@@ -214,7 +198,6 @@
                         }
                     }
                 }
-            
                 // Efecto de hover mejorado
                 document.querySelectorAll('.account-card').forEach(card => {
                     card.addEventListener('mouseenter', function() {
@@ -223,7 +206,6 @@
                         }
                     })
                 });
-
                 card.addEventListener('mouseleave', function() {
                     if (!this.classList.contains('selected')) {
                         this.style.transform = 'translateY(0) scale(1)';

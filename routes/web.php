@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
 
+Route::get('ingresar', function () {
+    return view('welcome');
+})->name('crear-temporal');
+
 Route::get('/', function () {
     return view('auth.account-type-selector');
 })->name('home');
