@@ -45,7 +45,11 @@ class GrupoController extends Controller
             ->where('estado', true)
             ->first();
 
-        return redirect()->route('grupo.index')
+        registrar_bitacora(
+            "Se añadio un nuevo grupo : {$grupo->descripcion}"
+        );
+
+        return redirect()->route('grupos.index')
             ->with('success', 'Grupo agregado correctamente.');
     }
 
@@ -64,11 +68,11 @@ class GrupoController extends Controller
      */
     public function edit($id)
     {
-        $grupo = Grupo::where('id', $id)
+        /* $grupo = Grupo::where('id', $id)
             ->where('estado', true)
             ->first();
         
-        return view('application.grupo.edit', compact('grupo'));
+        return view('application.grupo.edit', compact('grupo')); */
     }
 
     /**
@@ -85,12 +89,18 @@ class GrupoController extends Controller
             ->where('estado', true)
             ->first();
 
+        $grupo_ant = $grupo->descripcion;
+
         // Crear el rol
         $grupo->update([
             'descripcion' => $request->descripcion
         ]);
 
-        return redirect()->route('grupo.index')
+        registrar_bitacora(
+            "Se actualizo el grupo {$grupo->descripcion} a {$grupo_ant}"
+        );
+
+        return redirect()->route('grupos.index')
             ->with('success', 'Grupo actualizado correctamente.');
     }
 
@@ -104,7 +114,7 @@ class GrupoController extends Controller
             ->first();
 
         if (!$grupo) {
-            return redirect()->route('grupo.index')
+            return redirect()->route('grupos.index')
                 ->with('error', 'Grupo no encontrado.');
         }
 
@@ -112,7 +122,11 @@ class GrupoController extends Controller
         
         $grupo->save();
 
-        return redirect()->route('grupo.index')
+        registrar_bitacora(
+            "Se retiro el grupo : {$grupo->descripcion}"
+        );
+
+        return redirect()->route('grupos.index')
             ->with('success', 'Grupo eliminado correctamente.');
     }
 
@@ -123,7 +137,7 @@ class GrupoController extends Controller
             ->first();
 
         if (!$grupo) {
-            return redirect()->route('grupo.index')
+            return redirect()->route('grupos.index')
                 ->with('error', 'Grupo no encontrado.');
         }
 
@@ -131,7 +145,11 @@ class GrupoController extends Controller
         
         $grupo->save();
 
-        return redirect()->route('grupo.index')
+        registrar_bitacora(
+            "Se reactivo el grupo : {$grupo->descripcion}"
+        );
+
+        return redirect()->route('grupos.index')
             ->with('success', 'Grupo agregado correctamente.');
     }
 

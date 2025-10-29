@@ -22,7 +22,7 @@ class RolController extends Controller
      */
     public function create()
     {
-        return view('application.rol.create');
+        //return view('application.rol.create');
     }
 
     /**
@@ -46,7 +46,12 @@ class RolController extends Controller
         $rol = Rol::where('estado', true)
             ->find($rol_temp->id);
 
-        return view('application.rol.show', compact('rol'));
+        registrar_bitacora(
+            "Se añadio un nuevo rol : {$rol->nombre}"
+        );
+
+        return redirect()->route('roles.index')
+            ->with('success', 'Rol eliminado correctamente.');
     }
 
     /**
@@ -54,9 +59,9 @@ class RolController extends Controller
      */
     public function show($id)
     {
-        $rol = Rol::where('estado', true)->find($id);
+        /* $rol = Rol::where('estado', true)->find($id);
 
-        return view('application.rol.show', compact('rol'));
+        return view('application.rol.show', compact('rol')); */
     }
 
     /**
@@ -64,9 +69,9 @@ class RolController extends Controller
      */
     public function edit($id)
     {
-        $rol = Rol::where('estado', true)->find($id);
+        /* $rol = Rol::where('estado', true)->find($id);
         
-        return view('application.rol.edit', compact('rol'));
+        return view('application.rol.edit', compact('rol')); */
     }
 
     /**
@@ -88,7 +93,11 @@ class RolController extends Controller
             'descripcion' => $request->descripcion
         ]);
 
-        return redirect()->route('rol.index')
+        registrar_bitacora(
+            "Se actualizo el rol : {$rol->nombre}"
+        );
+
+        return redirect()->route('roles.index')
             ->with('success', 'Rol actulizado correctamente.');
     }
 
@@ -102,7 +111,7 @@ class RolController extends Controller
             ->first();
 
         if (!$rol) {
-            return redirect()->route('rol.index')
+            return redirect()->route('roles.index')
                 ->with('error', 'Rol no encontrado.');
         }
 
@@ -110,7 +119,11 @@ class RolController extends Controller
         
         $rol->save();
 
-        return redirect()->route('rol.index')
+        registrar_bitacora(
+            "Se retiro el rol : {$rol->nombre}"
+        );
+
+        return redirect()->route('roles.index')
             ->with('success', 'Rol eliminado correctamente.');
     }
 
@@ -121,7 +134,7 @@ class RolController extends Controller
             ->first();
 
         if (!$rol) {
-            return redirect()->route('rol.index')
+            return redirect()->route('roles.index')
                 ->with('error', 'Rol no encontrado.');
         }
 
@@ -129,7 +142,11 @@ class RolController extends Controller
         
         $rol->save();
 
-        return redirect()->route('rol.index')
+        registrar_bitacora(
+            "Se reactivo el rol : {$rol->nombre}"
+        );
+        
+        return redirect()->route('roles.index')
             ->with('success', 'Rol agregado correctamente.');
     }
 

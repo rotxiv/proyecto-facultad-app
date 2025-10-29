@@ -10,5 +10,9 @@ class Aula extends Model
     protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'integer';
-    protected $fillable = [ 'numero_aula', 'visible' ];
+    protected $fillable = [ 
+        'numero_aula', 
+        'tipo_aula', 
+        'visible' 
+    ];
 }

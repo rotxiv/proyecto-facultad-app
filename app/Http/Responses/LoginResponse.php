@@ -17,7 +17,11 @@ class LoginResponse implements LoginResponseContract
     public function toResponse($request)
     {
         $user = auth()->user();
-        
+
+        registrar_bitacora(
+            "El usuario : {$user->name} ha iniciado sesion."
+        );
+
         // Redirigir según el rol del usuario
         if ($user->rol) {
             switch ($user->rol->nombre) {

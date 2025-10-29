@@ -1,14 +1,21 @@
 <x-layouts.app :title="__('Lista de Docentes')">
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
 
-        <!-- Modal toggle -->
-        <button id="open-modal" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-            Añadir Docente
-        </button>
+        <!-- Contenedor de botones -->
+        <div class="flex flex-wrap gap-4 mb-4">
+            <!-- Modal toggle -->
+            <button id="open-modal" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                Añadir Docente
+            </button>
 
-        <td class="px-6 py-4 text-right">
-            <a href="{{ route('docentes.deleted-index') }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ver eliminados</a>
-        </td>
+            <!-- Botón para mostrar los administrativos eliminados -->
+            <form action="{{ route('administrativos.deleted-index') }}" method="GET">
+                @csrf
+                <button type="submit"class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Docentes Eliminados
+                </button>
+            </form>
+        </div>
 
         <!-- Main modal -->
         <div id="add-teacher-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -115,8 +122,13 @@
                         {{ $docente->persona->telefono ?? '—' }}
                     </td>
                     <td class="px-6 py-4 text-right">
-                        <a href="{{ route('docentes.show', $docente->id) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ver</a>
-                    </td>
+                        <form action="{{ route('docentes.show', $docente->id) }}" method="GET">
+                            @csrf
+                            <button type="submit"class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                Ver
+                            </button>
+                        </form>
+                    </td></script>
                 </tr>
                 @endforeach
             </tbody>

@@ -9,13 +9,6 @@ use Illuminate\Http\Request;
 class AdministrativoController extends Controller
 {
     /**
-     * Display the principal panel of the resource.
-     */
-    public function panel()
-    {
-        return view('application.administrativo.panel');
-    }
-    /**
      * Display a listing of the resource.
      */
     public function index()
@@ -79,6 +72,11 @@ class AdministrativoController extends Controller
             ->find($administrativo_temp->id)
             ->get();
 
+        // uso de la bitacora
+        registrar_bitacora(
+            "Se creó un nuevo administrativo : {$administrativo->codigo}"
+        );
+
         return view(
             'application.administrativo.show', compact('administrativo')
         );
@@ -94,7 +92,7 @@ class AdministrativoController extends Controller
             ->find($id);
 
         if (!$administrativo) {
-            return redirect()->route('administrativo.index')
+            return redirect()->route('administrativos.index')
                 ->with('error', 'Administrativo no encontrado.');
         }
 
@@ -153,6 +151,11 @@ class AdministrativoController extends Controller
             'correo' => $request->correo,
         ]);
 
+        // uso de la bitacora
+        registrar_bitacora(
+            "Se creó un nuevo docente: {$administrativo->codigo}"
+        );
+
         return view(
             'application.administrativo.show', compact('administrativo')
         );
@@ -167,7 +170,7 @@ class AdministrativoController extends Controller
             ->find($id);
 
         if (!$administrativo) {
-            return redirect()->route('administrativo.index')
+            return redirect()->route('administrativos.index')
                 ->with('error', 'Administrativo no encontrado.');
         }
 
@@ -175,7 +178,12 @@ class AdministrativoController extends Controller
         
         $administrativo->save();
 
-        return redirect()->route('administrativo.index')
+        // uso de la bitacora
+        registrar_bitacora(
+            "Se actualizó al administrativo : {$administrativo->codigo}"
+        );
+
+        return redirect()->route('administrativos.index')
             ->with('success', 'Administrativo eliminado correctamente.');
     }
 
@@ -186,7 +194,7 @@ class AdministrativoController extends Controller
             ->first();
 
         if (!$administrativo) {
-            return redirect()->route('administrativo.index')
+            return redirect()->route('administrativos.index')
                 ->with('error', 'Administrativo no encontrado.');
         }
 
@@ -194,7 +202,12 @@ class AdministrativoController extends Controller
         
         $administrativo->save();
 
-        return redirect()->route('administrativo.show', $administrativo->id)
+        // uso de la bitacora
+        registrar_bitacora(
+            "Se reingreso al administrativo : {$administrativo->codigo}"
+        );
+
+        return redirect()->route('administrativos.show', $administrativo->id)
             ->with('success', 'Administrativo eliminado correctamente.');
     }
 
@@ -209,7 +222,7 @@ class AdministrativoController extends Controller
         $administrativos = $administrativos->filter(fn($administrativos) => $administrativos->persona !== null);
 
         return view(
-            'application.administrativo.deletedIndex', compact('administrativo')
+            'application.administrativo.deletedIndex', compact('administrativos')
         );
     }
 

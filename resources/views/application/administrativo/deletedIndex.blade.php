@@ -1,5 +1,13 @@
 <x-layouts.app :title="__('Administrativos Retirados')">
-    <!-- Tabla Principal -->
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-4 space-y-4">
+
+        <form action="{{ route('administrativos.index') }}" method="GET">
+                @csrf
+                <button type="submit"class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Regresar
+                </button>
+        </form>
+        <!-- Tabla Principal -->
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <caption class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
                 Lista de Administrativos Inactivos

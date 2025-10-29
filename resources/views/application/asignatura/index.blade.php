@@ -1,16 +1,22 @@
 <x-layouts.app :title="__('Lista de Asinaturas')">
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-
-        <!-- Modal toggle -->
-        <button id="open-add-modal" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Añadir Asignatura</button>
-
-        <form class="space-y-4" action="{{ route('asignaturas.deleted-index') }}" method="GET">
-            @csrf
-           <button class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Asignaturas Eliminadas</button>
-        </form>
-
-        <!-- Main modal -->
-        <div id="modal-open-button" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-4 space-y-4">
+        <!-- Contenedor de botones -->
+        <div class="flex flex-wrap gap-4 mb-4">
+            <!-- Botón para añadir asignatura -->
+            <button id="open-add-modal-button" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                Añadir Asignatura
+            </button>
+            <!-- Botón para mostrar asignaturas eliminadas -->
+            <form action="{{ route('asignaturas.deleted-index') }}" method="GET">
+                @csrf
+                <button type="submit"class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Asignaturas Eliminadas
+                </button>
+            </form>
+        </div>
+        <!-- Modal añadir asignatura -->
+        <div id="add-subject-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative p-4 w-full max-w-md max-h-full">
                 <!-- Modal content -->
                 <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
@@ -19,7 +25,7 @@
                         <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                             Ingrese la nueva Asignatura
                         </h3>
-                        <button id="modal-close-button" type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="authentication-modal">
+                        <button id="close-add-modal-button" type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="authentication-modal">
                             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                             </svg>
@@ -31,8 +37,8 @@
                         <form class="space-y-4" action="{{ route('asignaturas.store') }}" method="POST">
                             @csrf
                             <div>
-                                <label for="asignatura" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Número de Carnet</label>
-                                <input type="text" name="asignatura" id="asignatura" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                                <label for="descripcion" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre de la Asignatura</label>
+                                <input type="text" name="descripcion" id="descripcion" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                                 
                                 <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Añadir Asignatura</button>
                             </div>
@@ -60,25 +66,52 @@
             </thead>
             <tbody>
                 @foreach ($asignaturas as $asignatura)
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                    <td class="px-6 py-4">{{ $asignatura->id ?? '—' }}</td>
-                    <td class="px-6 py-4">{{ $asignatura->descripcion ?? '—' }}</td>
+                <tr id="row-{{ $asignatura->id }}" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                    <td class="px-6 py-4">{{ $asignatura->id }}</td>
+
+                    <!-- Campo editable -->
+                    <td class="px-6 py-4">
+                        <span class="descripcion-text">{{ $asignatura->descripcion }}</span>
+                        <form method="POST" action="{{ route('asignaturas.update', $asignatura->id) }}" class="form-editar hidden">
+                            @csrf
+                            @method('PUT')
+                            <input type="text" name="descripcion" value="{{ $asignatura->descripcion }}"
+                                class="descripcion-input w-full border rounded px-2 py-1 text-gray-900 dark:bg-gray-600 dark:text-white">
+                        </form>
+                    </td>
+
+                    <!-- Botones -->
                     <td class="px-6 py-4 text-right">
-                        <button id="open-edit-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Editar Asignatura</button>
+                        <button type="button" class="editar-btn text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700">
+                            Editar
+                        </button>
+                        <button type="submit" class="guardar-btn hidden text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700">
+                            Guardar
+                        </button>
+                        <button type="button" class="cancelar-btn hidden text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-600 dark:hover:bg-gray-700">
+                            Cancelar
+                        </button>
+
+                        <!-- Formulario de eliminación -->
+                        <form method="POST" action="{{ route('asignaturas.destroy', $asignatura->id) }}" class="inline-block" onsubmit="return confirm('¿Estás seguro de eliminar esta asignatura?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-600 dark:hover:bg-red-700">
+                                Eliminar
+                            </button>
+                        </form>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+
     </div>
     <!-- Script -->
     <script>
-        const openAddModalButton = document.getElementById('modal-open-button');
+        const openAddModalButton = document.getElementById('open-add-modal-button');
         const addModal = document.getElementById('add-subject-modal');
-        const closeAddModalButton = document.getElementById('modal-close-button');
-        const openEditModalButton = document.getElementById('modal-open-add-button');
-        const editModal = document.getElementById('edit-subject-modal');
-        const closeEditModalButton = document.getElementById('modal-close-button');
+        const closeAddModalButton = document.getElementById('close-add-modal-button');
 
         openAddModalButton.addEventListener('click', () => {
             addModal.classList.remove('hidden');
@@ -90,19 +123,40 @@
             addModal.classList.remove('flex');
         });
 
-        openEditModalButton.addEventListener('click', () => {
-            editModal.classList.remove('hidden');
-            editModal.classList.add('flex');
-        });
-
-        closeEditModalButton.addEventListener('click', () => {
-            editModal.classList.add('hidden');
-            editModal.classList.remove('flex');
-        });
-
         // Pasar la variable PHP a JavaScript
-        let variable = @json($docentes);
+        let variable = @json($asignaturas);
         console.log(variable); // Imprimir en la consola
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.editar-btn').forEach(boton => {
+                boton.addEventListener('click', function() {
+                    const fila = this.closest('tr');
+                    fila.querySelector('.descripcion-text').classList.add('hidden');
+                    fila.querySelector('.form-editar').classList.remove('hidden');
+                    fila.querySelector('.editar-btn').classList.add('hidden');
+                    fila.querySelector('.guardar-btn').classList.remove('hidden');
+                    fila.querySelector('.cancelar-btn').classList.remove('hidden');
+                });
+            });
+
+            document.querySelectorAll('.cancelar-btn').forEach(boton => {
+                boton.addEventListener('click', function() {
+                    const fila = this.closest('tr');
+                    fila.querySelector('.form-editar').classList.add('hidden');
+                    fila.querySelector('.descripcion-text').classList.remove('hidden');
+                    fila.querySelector('.editar-btn').classList.remove('hidden');
+                    fila.querySelector('.guardar-btn').classList.add('hidden');
+                    fila.querySelector('.cancelar-btn').classList.add('hidden');
+                });
+            });
+
+            document.querySelectorAll('.guardar-btn').forEach(boton => {
+                boton.addEventListener('click', function() {
+                    const fila = this.closest('tr');
+                    fila.querySelector('.form-editar').submit();
+                });
+            });
+        });
 
     </script>
 </x-layouts.app>

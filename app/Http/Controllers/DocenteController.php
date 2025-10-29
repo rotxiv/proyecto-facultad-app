@@ -9,13 +9,6 @@ use Illuminate\Http\Request;
 class DocenteController extends Controller
 {
     /**
-     * Display the principal panel of the resource.
-     */
-    public function panel()
-    {
-        return view('application.docente.panel');
-    }
-    /**
      * Display a listing of the resource.
      */
     public function index()
@@ -82,7 +75,9 @@ class DocenteController extends Controller
             ->get();
 
         // uso de la bitacora
-        registrar_bitacora("Se creó un nuevo docente: {$request->nombre}");
+        registrar_bitacora(
+            "Se creó un nuevo docente: {$request->codigo}"
+        );
 
         return view('application.docente.show', compact('docente'));
     }
@@ -154,6 +149,11 @@ class DocenteController extends Controller
             'carga_horaria' => $request->carga_horaria
         ]);
 
+        // uso de la bitacora
+        registrar_bitacora(
+            "Se actualizó al docente: {$request->codigo}"
+        );
+
         return view('application.docente.show', compact('docente'));
     }
 
@@ -172,6 +172,11 @@ class DocenteController extends Controller
         $docente->estado = false;
         
         $docente->save();
+
+        // uso de la bitacora
+        registrar_bitacora(
+            "Se elimino al docente: {$docente->codigo}"
+        );
 
         return redirect()->route('docentes.index')
             ->with('success', 'Docente eliminado correctamente.');
@@ -194,7 +199,9 @@ class DocenteController extends Controller
         $docente->save();
 
         // uso de la bitacora
-        registrar_bitacora("El usuario reactivó al docente con codigo: {$docente->codigo}");
+        registrar_bitacora(
+            "Se reactivó al docente con codigo: {$docente->codigo}"
+        );
 
         return redirect()->route('docentes.show', $docente->id)
             ->with('success', 'Docente eliminado correctamente.');

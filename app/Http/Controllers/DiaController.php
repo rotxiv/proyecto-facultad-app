@@ -22,7 +22,7 @@ class DiaController extends Controller
      */
     public function create()
     {
-        return view('application.dia.create');
+        //return view('application.dia.create');
     }
 
     /**
@@ -45,7 +45,10 @@ class DiaController extends Controller
             ->where('estado', true)
             ->first();
 
-        return redirect()->route('dia.index')
+        registrar_bitacora(
+            "Se añadio un nuevo dia : {$dia->descripcion}"
+        );
+        return redirect()->route('dias.index')
             ->with('success', 'Dia agregado correctamente.');
     }
 
@@ -64,11 +67,11 @@ class DiaController extends Controller
      */
     public function edit($id)
     {
-        $dia = Dia::where('id', $id)
+        /* $dia = Dia::where('id', $id)
             ->where('estado', true)
             ->first();
         
-        return view('application.dia.edit', compact('dia'));
+        return view('application.dia.edit', compact('dia')); */
     }
 
     /**
@@ -85,12 +88,16 @@ class DiaController extends Controller
             ->where('estado', true)
             ->first();
 
-        // Crear el rol
+        // Actualizar los datos
         $dia->update([
             'descripcion' => $request->descripcion
         ]);
 
-        return redirect()->route('dia.index')
+        registrar_bitacora(
+            "Se actualizo el dia : {$dia->descripcion}"
+        );
+
+        return redirect()->route('dias.index')
             ->with('success', 'Dia actualizado correctamente.');
     }
 
@@ -104,7 +111,7 @@ class DiaController extends Controller
             ->first();
 
         if (!$dia) {
-            return redirect()->route('dia.index')
+            return redirect()->route('dias.index')
                 ->with('error', 'Dia no encontrado.');
         }
 
@@ -112,7 +119,11 @@ class DiaController extends Controller
         
         $dia->save();
 
-        return redirect()->route('dia.index')
+        registrar_bitacora(
+            "Se retiro el dia : {$dia->descripcion}"
+        );
+
+        return redirect()->route('dias.index')
             ->with('success', 'Dia eliminado correctamente.');
     }
 
@@ -123,7 +134,7 @@ class DiaController extends Controller
             ->first();
 
         if (!$dia) {
-            return redirect()->route('dia.index')
+            return redirect()->route('dias.index')
                 ->with('error', 'Dia no encontrado.');
         }
 
@@ -131,17 +142,21 @@ class DiaController extends Controller
         
         $dia->save();
 
-        return redirect()->route('dia.index')
+        registrar_bitacora(
+            "Se reingreso el dia : {$dia->descripcion}"
+        );
+        
+        return redirect()->route('dias.index')
             ->with('success', 'Dia agregado correctamente.');
     }
 
     public function deletedIndex()
     {
         // Obtenemos todos los roles retirados (estado = false)
-        $dia = Dia::where('estado', false)->get();
+        $dias = Dia::where('estado', false)->get();
 
         return view(
-            'application.dia.deletedIndex', compact('dia')
+            'application.dia.deletedIndex', compact('dias')
         );
     }
 }

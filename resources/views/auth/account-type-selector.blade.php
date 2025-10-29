@@ -153,9 +153,7 @@
 
                 <!-- Botón continuar -->
                 <div class="text-center mt-12">
-                    <button 
-                        id="continueBtn" 
-                        onclick="continueToLogin()" 
+                    <button id="continueBtn" onclick="continueToLogin()" 
                         disabled
                         class="px-12 py-4 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:from-gray-500 disabled:to-gray-600 disabled:cursor-not-allowed text-white font-bold text-lg rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 disabled:hover:scale-100 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-transparent"
                     >
@@ -181,47 +179,49 @@
         </div>
 
         <script>
-            let selectedAccountType = null;
+            //document.addEventListener('DOMContentLoaded', function () {
+                let selectedAccountType = null;
 
-            function selectAccount(type) {
-                // Remover selección anterior
-                document.querySelectorAll('.account-card').forEach(card => {
-                    card.classList.remove('selected');
-                });
+                function selectAccount(type) {
+                    // Remover selección anterior
+                    document.querySelectorAll('.account-card').forEach(card => {
+                        card.classList.remove('selected');
+                    });
 
-                // Seleccionar nueva cuenta
-                event.currentTarget.classList.add('selected');
-                selectedAccountType = type;
+                    // Seleccionar nueva cuenta
+                    event.currentTarget.classList.add('selected');
+                    selectedAccountType = type;
 
-                // Habilitar botón continuar
-                const continueBtn = document.getElementById('continueBtn');
-                continueBtn.disabled = false;
-                continueBtn.classList.remove('disabled:from-gray-500', 'disabled:to-gray-600');
-            }
+                    // Habilitar botón continuar
+                    const continueBtn = document.getElementById('continueBtn');
+                    continueBtn.disabled = false;
+                    continueBtn.classList.remove('disabled:from-gray-500', 'disabled:to-gray-600');
+                }
 
-            function continueToLogin() {
-                if (selectedAccountType) {
-                    // Redirigir al login correspondiente
-                    switch(selectedAccountType) {
-                        case 'estudiante':
-                            window.location.href = '{{ route("login.estudiante") }}';
-                            break;
-                        case 'docente':
-                            window.location.href = '{{ route("login.docente") }}';
-                            break;
-                        case 'administrativo':
-                            window.location.href = '{{ route("login.administrativo") }}';
-                            break;
+                function continueToLogin() {
+                    if (selectedAccountType) {
+                        // Redirigir al login correspondiente
+                        switch(selectedAccountType) {
+                            case 'estudiante':
+                                window.location.href = '{{ route("login.estudiante") }}';
+                                break;
+                            case 'docente':
+                                window.location.href = '{{ route("login.docente") }}';
+                                break;
+                            case 'administrativo':
+                                window.location.href = '{{ route("login.administrativo") }}';
+                                break;
+                        }
                     }
                 }
-            }
-
-            // Efecto de hover mejorado
-            document.querySelectorAll('.account-card').forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    if (!this.classList.contains('selected')) {
-                        this.style.transform = 'translateY(-10px) scale(1.05)';
-                    }
+            
+                // Efecto de hover mejorado
+                document.querySelectorAll('.account-card').forEach(card => {
+                    card.addEventListener('mouseenter', function() {
+                        if (!this.classList.contains('selected')) {
+                            this.style.transform = 'translateY(-10px) scale(1.05)';
+                        }
+                    })
                 });
 
                 card.addEventListener('mouseleave', function() {
@@ -229,7 +229,6 @@
                         this.style.transform = 'translateY(0) scale(1)';
                     }
                 });
-            });
         </script>
     </body>
 </html>

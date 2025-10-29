@@ -32,20 +32,27 @@ class AulaController extends Controller
     {
         // Validar los datos del formulario
         $request->validate([
-            'numero_aula'=> 'required|integer|min:10|max:50'
+            'numero_aula'=> 'required|integer|min:10|max:50',
+            'tipo_aula' => 'required|string|max:15'
         ]);
 
         // Crear el aula
         $aula_temp = Aula::create([
-            'numero_aula' => $request->numero_aula
+            'numero_aula' => $request->numero_aula,
+            'tipo_aula' => $request->tipo_aula
         ]);
 
-        // obtener el rol creado
+        // obtener el aula creado
         $aula = Aula::where('id', $aula_temp->id)
             ->where('estado', true)
             ->first();
 
-        return redirect()->route('aula.index')
+        // uso de la bitacora
+        registrar_bitacora(
+            "Se añadio el aula número {$aula->numero_aula} de tipo {$aula->tipo_aula}"
+        );
+
+        return redirect()->route('aulas.index')
             ->with('success', 'Número de aula agregado correctamente.');
     }
 
@@ -72,19 +79,26 @@ class AulaController extends Controller
     {
         // Validar los datos del formulario
         $request->validate([
-            'numero_aula'=> 'required|integer|min:10|max:50'
+            'tipo_aula' => 'required|string|max:15'
         ]);
 
         $aula = Aula::where('id', $id)
             ->where('estado', true)
             ->first();
 
+        $aula_ant = $aula->tipo_aula;
+
         // Actualizar el numero de aula
         $aula->update([
-            'numero_aula' => $request->numero_aula
+            'tipo_aula' => $request->tipo_aula
         ]);
 
-        return redirect()->route('aula.index')
+        // uso de la bitacora
+        registrar_bitacora(
+            "Se actualizo el aula número {$aula->numero_aula} de tipo {$aula_ant} a {$aula->tipo_aula}"
+        );
+
+        return redirect()->route('aulas.index')
             ->with('success', 'Numero de aula actualizado correctamente.');
     }
 
@@ -98,7 +112,7 @@ class AulaController extends Controller
             ->first();
 
         if (!$aula) {
-            return redirect()->route('aula.index')
+            return redirect()->route('aulas.index')
                 ->with('error', 'Número de aula no encontrado.');
         }
 
@@ -106,7 +120,11 @@ class AulaController extends Controller
         
         $aula->save();
 
-        return redirect()->route('aula.index')
+        registrar_bitacora(
+            "Se elimino el aula número {$aula->numero_aula} de tipo {$aula->tipo_aula}"
+        );
+
+        return redirect()->route('aulas.index')
             ->with('success', 'Número de aula eliminado correctamente.');
     }
 
@@ -117,7 +135,7 @@ class AulaController extends Controller
             ->first();
 
         if (!$aula) {
-            return redirect()->route('aula.index')
+            return redirect()->route('aulas.index')
                 ->with('error', 'Número de aula no encontrado.');
         }
 
@@ -125,7 +143,11 @@ class AulaController extends Controller
         
         $aula->save();
 
-        return redirect()->route('aula.index')
+        registrar_bitacora(
+            "Se reactivo el aula número {$aula->numero_aula} de tipo {$aula->tipo_aula}"
+        );
+        
+        return redirect()->route('aulas.index')
             ->with('success', 'Número de aula agregado correctamente.');
     }
 

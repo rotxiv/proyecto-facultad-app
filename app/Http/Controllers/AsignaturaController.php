@@ -45,6 +45,10 @@ class AsignaturaController extends Controller
             ->where('estado', true)
             ->first();
 
+        registrar_bitacora(
+            "Se añadio la asignatura de : {$asignatura->descripcion}"
+        );
+        
         return redirect()->route('asignaturas.index')
             ->with('success', 'Asignatura agregada correctamente.');
     }
@@ -85,10 +89,16 @@ class AsignaturaController extends Controller
             ->where('estado', true)
             ->first();
 
+        $asig_ant = $asignatura->descripcion;
+
         // Actualizar los datos de la asignatura
         $asignatura->update([
             'descripcion' => $request->descripcion
         ]);
+
+        registrar_bitacora(
+            "Se actualizo la asignatura de {$asig_ant} a {$asignatura->descripcion}"
+        );
 
         return redirect()->route('asignaturas.index')
             ->with('success', 'Asignatura actualizada correctamente.');
@@ -112,6 +122,9 @@ class AsignaturaController extends Controller
         
         $asignatura->save();
 
+        registrar_bitacora(
+            "Se retiro la asignatura de {$asignatura->descripcion}"
+        );
         return redirect()->route('asignaturas.index')
             ->with('success', 'Asignatura eliminada correctamente.');
     }
@@ -131,6 +144,10 @@ class AsignaturaController extends Controller
         
         $asignatura->save();
 
+        registrar_bitacora(
+            "Se reingreso la asignatura de {$asignatura->descripcion}"
+        );
+        
         return redirect()->route('asignaturas.index')
             ->with('success', 'Asignatura agregado correctamente.');
     }

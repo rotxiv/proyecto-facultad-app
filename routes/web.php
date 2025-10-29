@@ -6,9 +6,11 @@ use App\Http\Controllers\AulaController;
 use App\Http\Controllers\BitacoraController;
 use App\Http\Controllers\DiaController;
 use App\Http\Controllers\DocenteController;
-
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\RolController;
+
+use App\Http\Controllers\Auth\DocenteLoginController;
+
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -31,8 +33,8 @@ Route::get('/login/estudiante', function () {
     return view('livewire.auth.login-estudiante');
 })->name('login.estudiante');
 
-Route::get('/login/docente', [App\Http\Controllers\Auth\DocenteLoginController::class, 'showLoginForm'])->name('login.docente');
-Route::post('/login/docente', [App\Http\Controllers\Auth\DocenteLoginController::class, 'login'])->name('docente.login');
+Route::get('/login/docente', [DocenteLoginController::class, 'showLoginForm'])->name('login.docente');
+Route::post('/login/docente', [DocenteLoginController::class, 'login'])->name('docente.login');
 
 Route::get('/login/administrativo', function () {
     return view('livewire.auth.login-administrativo');

@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\CustomLoginController;
+
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -57,8 +60,6 @@ class FortifyServiceProvider extends ServiceProvider
                     return null;
             }
         });
-        
-
     }
     
     /**
@@ -80,9 +81,7 @@ class FortifyServiceProvider extends ServiceProvider
         // Por ahora retornamos null ya que no tenemos tabla de estudiantes
         return null;
     }
-    
-
-    
+        
     /**
      * Autenticar administrativo por email
      */
@@ -100,7 +99,6 @@ class FortifyServiceProvider extends ServiceProvider
                 return $user;
             }
         }
-        
         return null;
     }
 
