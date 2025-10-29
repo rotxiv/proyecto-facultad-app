@@ -49,7 +49,7 @@ class AdminUserSeeder extends Seeder
             'email' => 'admin@facultad.edu'
         ], [
             'name' => 'Administrador',
-            'password' => Hash::make('administrador12345'),
+            'password' => Hash::make('admin123'),
             'rol_id' => $rolAdmin->id,
             'administrativo_id' => $administrativo->id,
             'email_verified_at' => now()

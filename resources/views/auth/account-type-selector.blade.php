@@ -73,8 +73,6 @@
         </style>
     </head>
     <body class="min-h-screen bg-gradient-animated antialiased overflow-auto">
-        <!-- Capa de fondo oscuro -->
-        <div class="absolute inset-0 bg-black bg-opacity-30"></div>
         
         <!-- Elementos decorativos flotantes -->
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
